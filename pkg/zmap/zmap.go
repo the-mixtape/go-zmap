@@ -1,14 +1,22 @@
 package zmap
 
-type Config struct {
-}
-
 type ZMap struct {
 	config Config
+	parser *zmapParser
 }
 
 func NewZMap(config Config) (*ZMap, error) {
-	return &ZMap{config}, nil
+	err := config.check()
+	if err != nil {
+		return nil, err
+	}
+
+	parser := newZmapParser(config.ProbeModule)
+
+	return &ZMap{
+		config,
+		parser,
+	}, nil
 }
 
 func (z *ZMap) Scan() {
