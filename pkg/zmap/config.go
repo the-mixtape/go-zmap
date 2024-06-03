@@ -19,11 +19,10 @@ type Config struct {
 	Targets string
 
 	// region Optional
-	Port     int
-	Options  string
-	ZMapPath string
-	// ProbeModule
-	// Supported: tcp_synscan, icmp_echoscan, icmp_echo_time, udp, upnp
+	UseSudo     bool
+	Port        int
+	Options     string
+	ZMapPath    string
 	ProbeModule string
 	// endregion
 }
@@ -39,7 +38,7 @@ func (c *Config) check() error {
 
 	// region checking probe module
 	if c.ProbeModule == "" {
-		c.ProbeModule = probes.ProbeType.TCP
+		c.ProbeModule = probes.ProbeType.TCPSyn
 	}
 
 	err := probes.CheckProbeType(c.ProbeModule)
