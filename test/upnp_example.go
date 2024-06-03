@@ -4,41 +4,42 @@ import (
 	"fmt"
 	"go-zmap/pkg/zmap"
 	"go-zmap/pkg/zmap/probes"
+	log "log/slog"
 )
 
 func main() {
 	zmapConfig := zmap.Config{
 		UseSudo:     true,
 		Targets:     "101.200.188.97/20",
-		Port:        80,
+		Port:        1900,
 		Options:     "-B 100M",
 		ZMapPath:    "/usr/sbin/zmap",
-		ProbeModule: probes.ProbeType.TCPSyn,
+		ProbeModule: probes.ProbeType.UPNP,
 	}
 
 	scanner, err := zmap.NewZMap(zmapConfig)
 	if err != nil {
-		fmt.Println("initializing zmap error: ", err.Error())
+		log.Error("initializing zmap error: ", err.Error())
 		return
 	}
 
 	results, err := scanner.Scan()
 	if err != nil {
-		fmt.Println("starting scan error: ", err.Error())
+		log.Error("starting scan error: ", err.Error())
 		return
 	}
 
-	fmt.Println("scan started")
+	log.Info("scan started")
 	for result := range results {
-		scanResult, err := probes.ParseTcpSynScanResult(result)
+		scanResult, err := probes.ParseUpnpScanResult(result)
 		if err != nil {
-			fmt.Println("parsing result err: ", err.Error())
+			log.Warn("parsing result err: ", err.Error())
 			continue
 		}
-		fmt.Println(fmt.Sprintf("%s:%d", scanResult.SourceAddress, scanResult.SourcePort))
+		log.Info(fmt.Sprintf("%s:%d", scanResult.SourceAddress, 1900))
 	}
 
 	if err = scanner.Error(); err != nil {
-		fmt.Println("zmap scan process error: ", err.Error())
+		log.Error("zmap scan process error: ", err.Error())
 	}
 }
