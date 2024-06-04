@@ -42,4 +42,3 @@ func main() {
 		log.Error("zmap scan process error: ", err.Error())
 	}
 }
-}

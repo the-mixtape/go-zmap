@@ -46,14 +46,14 @@ func (z *ZMap) Scan() (<-chan []byte, error) {
 
 	// Read from stderr
 	go func() {
-		reg := regexp.MustCompile("\\[FATAL\\]")
+		reg := regexp.MustCompile(`.*?\[FATAL](.*)`)
 
 		scanner := bufio.NewScanner(stderr)
 		for scanner.Scan() {
 			msg := scanner.Text()
-			match := reg.FindString(msg)
-			if match != "" {
-				z.scanError = errors.New(msg)
+			matches := reg.FindStringSubmatch(msg)
+			if len(matches) > 1 {
+				z.scanError = errors.New(matches[1])
 			}
 		}
 	}()
@@ -103,8 +103,5 @@ func (z *ZMap) getCommandLine() (programName string, args []string) {
 }
 
 func (z *ZMap) Error() error {
-	return z.scanError
-}
-r() error {
 	return z.scanError
 }

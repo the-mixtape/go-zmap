@@ -69,11 +69,3 @@ func getOutputFields(t reflect.Type) []string {
 func newUnsupportedProbeError(probeType string) error {
 	return fmt.Errorf("unsupported zmap probe module: %s", probeType)
 }
-e module: %s", probeType)
-}
-Type)
-}
-dule: %s", probeType)
-}
-Type)
-}

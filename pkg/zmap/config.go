@@ -109,8 +109,3 @@ func checkZMapBinaryFile(fqp string) error {
 
 	return nil
 }
-n ErrZMapNotExecutable
-	}
-
-	return nil
-}
