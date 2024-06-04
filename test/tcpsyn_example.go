@@ -3,18 +3,17 @@ package main
 import (
 	"fmt"
 	"go-zmap/pkg/zmap"
-	"go-zmap/pkg/zmap/probes"
 	log "log/slog"
 )
 
 func main() {
 	zmapConfig := zmap.Config{
 		UseSudo:     true,
-		Targets:     "101.200.188.97/20",
+		Targets:     "10.38.0.0/16",
 		Port:        80,
 		Options:     "-B 100M",
 		ZMapPath:    "/usr/sbin/zmap",
-		ProbeModule: probes.ProbeType.TCPSyn,
+		ProbeModule: zmap.ProbeType.TCPSyn,
 	}
 
 	scanner, err := zmap.NewZMap(zmapConfig)
@@ -31,7 +30,7 @@ func main() {
 
 	log.Info("scan started")
 	for result := range results {
-		scanResult, err := probes.ParseTcpSynScanResult(result)
+		scanResult, err := zmap.ParseTcpSynScanResult(result)
 		if err != nil {
 			log.Warn("parsing result err: ", err.Error())
 			continue
@@ -41,5 +40,7 @@ func main() {
 
 	if err = scanner.Error(); err != nil {
 		log.Error("zmap scan process error: ", err.Error())
+	}
+}
 	}
 }

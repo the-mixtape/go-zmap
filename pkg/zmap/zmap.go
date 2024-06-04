@@ -3,7 +3,6 @@ package zmap
 import (
 	"bufio"
 	"errors"
-	"go-zmap/pkg/zmap/probes"
 	"os/exec"
 	"regexp"
 	"strconv"
@@ -90,7 +89,7 @@ func (z *ZMap) getCommandLine() (programName string, args []string) {
 	args = append(args, "-M", z.config.ProbeModule)
 	args = append(args, "-p", strconv.Itoa(z.config.Port))
 
-	outputFields := probes.GetProbeModuleOutputFields(z.config.ProbeModule)
+	outputFields := GetProbeModuleOutputFields(z.config.ProbeModule)
 	fieldsArg := strings.Join(outputFields, ",")
 	args = append(args, "-f", fieldsArg)
 
@@ -104,5 +103,8 @@ func (z *ZMap) getCommandLine() (programName string, args []string) {
 }
 
 func (z *ZMap) Error() error {
+	return z.scanError
+}
+r() error {
 	return z.scanError
 }

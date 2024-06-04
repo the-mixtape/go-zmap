@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"go-zmap/pkg/zmap"
-	"go-zmap/pkg/zmap/probes"
 	log "log/slog"
 )
 
@@ -14,7 +13,7 @@ func main() {
 		Port:        1900,
 		Options:     "-B 100M",
 		ZMapPath:    "/usr/sbin/zmap",
-		ProbeModule: probes.ProbeType.UPNP,
+		ProbeModule: zmap.ProbeType.UPNP,
 	}
 
 	scanner, err := zmap.NewZMap(zmapConfig)
@@ -31,7 +30,7 @@ func main() {
 
 	log.Info("scan started")
 	for result := range results {
-		scanResult, err := probes.ParseUpnpScanResult(result)
+		scanResult, err := zmap.ParseUpnpScanResult(result)
 		if err != nil {
 			log.Warn("parsing result err: ", err.Error())
 			continue
@@ -42,4 +41,5 @@ func main() {
 	if err = scanner.Error(); err != nil {
 		log.Error("zmap scan process error: ", err.Error())
 	}
+}
 }

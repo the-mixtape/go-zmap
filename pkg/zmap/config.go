@@ -2,7 +2,6 @@ package zmap
 
 import (
 	"errors"
-	"go-zmap/pkg/zmap/probes"
 	"os"
 	"os/exec"
 	"runtime"
@@ -38,10 +37,10 @@ func (c *Config) check() error {
 
 	// region checking probe module
 	if c.ProbeModule == "" {
-		c.ProbeModule = probes.ProbeType.TCPSyn
+		c.ProbeModule = ProbeType.TCPSyn
 	}
 
-	err := probes.CheckProbeType(c.ProbeModule)
+	err := CheckProbeType(c.ProbeModule)
 	if err != nil {
 		return err
 	}
@@ -106,6 +105,11 @@ func checkZMapBinaryFile(fqp string) error {
 
 	if !(info.Mode().IsRegular() && info.Mode().Perm()&0111 != 0) {
 		return ErrZMapNotExecutable
+	}
+
+	return nil
+}
+n ErrZMapNotExecutable
 	}
 
 	return nil
