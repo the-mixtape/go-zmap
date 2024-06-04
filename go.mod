@@ -1,3 +1,3 @@
 module go-zmap
 
-go 1.22
+go 1.21
