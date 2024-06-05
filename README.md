@@ -22,12 +22,12 @@ package main
 
 import (
 	...
-	"github.com/the-mixtape/go-zmap/pkg/zmap"
+	"github.com/the-mixtape/go-zmap"
 	...
 )
 
 func main() {
-	zmapConfig := zmap.Config{
+	zmapConfig := go_zmap.Config{
 		UseSudo:     true,
 		Targets:     "101.200.188.97/20",
 		Port:        80,
@@ -35,7 +35,7 @@ func main() {
 		ProbeModule: zmap.ProbeType.TCPSyn,
 	}
 
-	scanner, err := zmap.NewZMap(zmapConfig)
+	scanner, err := go_zmap.NewZMap(zmapConfig)
 	if err != nil {
 		log.Error(fmt.Sprintf("initializing zmap error: %v", err))
 		return
@@ -49,7 +49,7 @@ func main() {
 
 	log.Info("scan started")
 	for result := range results {
-		scanResult, err := zmap.ParseTcpSynScanResult(result)
+		scanResult, err := go_zmap.ParseTcpSynScanResult(result)
 		if err != nil {
 			log.Warn(fmt.Sprintf("parsing result err: %v", err))
 			continue
